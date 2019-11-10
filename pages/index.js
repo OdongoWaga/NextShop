@@ -6,10 +6,11 @@ function Home() {
     getProducts()
   }, [])
 
-  function getProducts() {
+  async function getProducts() {
 
     const url ='http://localhost:3000/api/products'
-    axios.get(url)
+    const response = await axios.get(url)
+    console.log(response.data)
   }
 
 

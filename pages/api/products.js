@@ -1,3 +1,5 @@
+import products from '../../static/products'
+
 export default (req, res) => {
-    console.log(req)
+    res.status(200).json(products)
 }
