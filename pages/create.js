@@ -2,6 +2,7 @@ import React from 'react'
 import {Form, Image, TextArea, Button, Message, Header, Icon, Input} from 'semantic-ui-react'
 import axios from 'axios'
 import baseUrl from '../utils/baseUrl'
+import catchErrors from '../utils/catchErrors'
 
 const INITIAL_PRODUCT = {
   name:'',
@@ -16,6 +17,14 @@ const [product, setProduct] = React.useState(INITIAL_PRODUCT)
 const [loading, setLoading] = React.useState(false)
 const [mediaPreview, setMediaPreview] = React.useState('')
 const [success, setSuccess] = React.useState(false)
+const [disabled, setDisabled] = React.useState(false)
+const [error, setError] = React.useState('')
+
+React.useEffect(()=> {
+  //checks whether all the values in array product have been filled. 
+  const isProduct = Object.values(product).every(e=> Boolean(e))
+  isProduct ? setDisabled(false): setDisabled(true)
+})
 
 function handleChange(e) {
   const {name, value, files} =e.target
@@ -41,6 +50,7 @@ async function handleImageUpload() {
 
 
 async function handleSubmit(e) {
+  try{
   e.preventDefault();
   setLoading(true)
   const mediaUrl = await handleImageUpload()
@@ -53,6 +63,12 @@ async function handleSubmit(e) {
   setLoading(false)
   setProduct(INITIAL_PRODUCT)
   setSuccess(true)
+  }
+  catch(error) {
+    catchErrors(error, setError)
+  } finally{
+    setLoading(false)
+  }
 }
 
   return (
@@ -61,7 +77,13 @@ async function handleSubmit(e) {
     <Icon name= "add" color="orange" />
     Create New Product
   </Header>
-  <Form loading={loading} success={success} onSubmit={handleSubmit}>
+  <Form loading={loading} error = {Boolean(error)} success={success} onSubmit={handleSubmit}>
+  <Message 
+    error
+    header="Oops"
+    content={error}
+    />
+
     <Message 
     success
     icon="check"
@@ -116,7 +138,7 @@ async function handleSubmit(e) {
        
       <Form.Field
       control ={Button}
-      disabled ={loading}
+      disabled ={disabled || loading}
       color="blue"
       icon="pencil alternate"
       content="Submit"
