@@ -1,6 +1,7 @@
 import React from 'react'
 import {Form, Image, TextArea, Button, Message, Header, Icon, Input} from 'semantic-ui-react'
-
+import axios from 'axios'
+import baseUrl from '../utils/baseUrl'
 
 const INITIAL_PRODUCT = {
   name:'',
@@ -27,9 +28,26 @@ function handleChange(e) {
  
 }
 
-function handleSubmit(e) {
+async function handleImageUpload() {
+  const data = new FormData()
+  data.append('file', product.media)
+  data.append('upload_preset', 'reactcycle')
+  data.append('cloud_name', 'dkwqktq6r')
+  const response = await axios.post(process.env.CLOUDINARY_URL, data)
+  const mediaUrl = response.data.url
+  return mediaUrl
+
+}
+
+
+async function handleSubmit(e) {
   e.preventDefault();
-  console.log(product)
+  const mediaUrl = await handleImageUpload()
+  console.log({mediaUrl})
+  // const url = `${baseUrl}/api/product`
+  // const {name, price, description} = product
+  // const payload = {name, price, description, mediaUrl}
+  // await axios.post(url, payload)
   setProduct(INITIAL_PRODUCT)
   setSuccess(true)
 }
