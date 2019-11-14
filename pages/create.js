@@ -13,7 +13,7 @@ const INITIAL_PRODUCT = {
 
 function CreateProduct() {
 const [product, setProduct] = React.useState(INITIAL_PRODUCT)
-
+const [loading, setLoading] = React.useState(false)
 const [mediaPreview, setMediaPreview] = React.useState('')
 const [success, setSuccess] = React.useState(false)
 
@@ -42,12 +42,15 @@ async function handleImageUpload() {
 
 async function handleSubmit(e) {
   e.preventDefault();
+  setLoading(true)
   const mediaUrl = await handleImageUpload()
   console.log({mediaUrl})
-  // const url = `${baseUrl}/api/product`
-  // const {name, price, description} = product
-  // const payload = {name, price, description, mediaUrl}
-  // await axios.post(url, payload)
+  const url = `${baseUrl}/api/product`
+  const {name, price, description} = product
+  const payload = {name, price, description, mediaUrl}
+  const response = await axios.post(url, payload)
+  console.log({response})
+  setLoading(false)
   setProduct(INITIAL_PRODUCT)
   setSuccess(true)
 }
@@ -58,7 +61,7 @@ async function handleSubmit(e) {
     <Icon name= "add" color="orange" />
     Create New Product
   </Header>
-  <Form success={success} onSubmit={handleSubmit}>
+  <Form loading={loading} success={success} onSubmit={handleSubmit}>
     <Message 
     success
     icon="check"
@@ -78,7 +81,7 @@ async function handleSubmit(e) {
        
       <Form.Field
       control ={Input}
-      name="Price"
+      name="price"
       label="Price"
       placeholder="Price"
       value={product.price}
@@ -108,10 +111,12 @@ async function handleSubmit(e) {
       label="Description"
       placeholder="Description"
       value={product.description}
+      onChange={handleChange}
       />
        
       <Form.Field
       control ={Button}
+      disabled ={loading}
       color="blue"
       icon="pencil alternate"
       content="Submit"
