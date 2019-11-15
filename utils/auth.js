@@ -17,5 +17,6 @@ if(ctx.req) {
 
 export function handleLogout() {
     cookie.remove('token')
+    window.localStorage.setItem('logout', Date.now())
     Router.push('/login')
 }

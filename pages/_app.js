@@ -4,6 +4,7 @@ import {parseCookies, destroyCookie} from 'nookies'
 import { redirectUser } from "../utils/auth";
 import axios from "axios";
 import baseUrl from '../utils/baseUrl'
+import Router from 'next/router'
 
 
 class MyApp extends App {
@@ -55,6 +56,17 @@ static  async getInitialProps({Component, ctx}) {
 
   return {pageProps}
 
+}
+
+componentDidMount() {
+  window.addEventListener('storage', this.syncLogout)
+}
+
+syncLogout = e => {
+  if(e.key ==='logout') {
+    console.log("logged out from storage")
+    Router.push('/login')
+  }
 }
 
 
