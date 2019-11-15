@@ -51,7 +51,7 @@ Login to add Products
 
 }
 
-return <Item.Group items ={mapCartProductsToItems(products)} />
+return <Item.Group divided items ={mapCartProductsToItems(products)} />
 
  
 }
