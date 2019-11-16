@@ -92,7 +92,7 @@ try {
     disabled= {disabled || loading}
     type="submit"
     color="orange"
-    content= "Sign Up"
+    content= "Login Up"
     />
 
 
