@@ -34,4 +34,5 @@ const OrderSchema = new mongoose.Schema(
   }
 );
 
+// prettier-ignore
 export default mongoose.models.Order || mongoose.model("Order", OrderSchema);
