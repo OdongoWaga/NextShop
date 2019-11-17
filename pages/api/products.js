@@ -12,6 +12,9 @@ export default async (req, res) => {
     const pageSize = Number(size)
     let products =[]
 
+    const totalDocs = await Product.countDocuments()
+    const totalPages = Math.ceil(totalDocs/pageSize)
+
     if(pageNum ===1) {
         products = await Product.find().limit(pageSize)
     } else {
@@ -20,5 +23,5 @@ export default async (req, res) => {
     }
 
 // const products = await Product.find()
-    res.status(200).json(products)
+    res.status(200).json({products, totalPages})
 }
