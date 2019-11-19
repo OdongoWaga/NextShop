@@ -1,1 +1,3 @@
-## Starting Repo for MERN Stack - The Complete Guide
+#NextShop
+
+App built with Server Side Rendered React, Node, Express and MongoDb. 
