@@ -1,5 +1,7 @@
 # NextShop
 
+Project uses Protected routes, authentication and checkout using stripe. 
+
 App built with Server Side Rendered React, Node, Express and MongoDb. 
 
 <img height="700" src="https://github.com/OdongoWaga/NextShop/blob/master/Assets/Screenshot%202019-11-19%20at%2005.32.41.png" />
