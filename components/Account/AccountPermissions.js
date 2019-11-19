@@ -16,7 +16,6 @@ function AccountPermissions() {
     const token = cookie.get('token')
     const payload = {headers: {Authorization: token}}
     const response = await axios.get(url, payload)
-    console.log(response.data)
     setUsers(response.data)
   }
 
@@ -51,8 +50,25 @@ function AccountPermissions() {
 function UserPermission({user}) {
 const [admin, setAdmin] = React.useState(user.role === 'admin')
 
+const isFirstRun = React.useRef(true)
+
+React.useEffect(()=> {
+  if(isFirstRun.current) {
+    isFirstRun.current = false
+    return
+  } 
+
+  updatePermission()
+}, [admin])
+
 function handleChangePermission() {
   setAdmin(prevState => !prevState)
+}
+
+async function updatePermission() {
+  const url =`${baseUrl}/api/account`
+  const payload = {_id:user._id, role: admin ? "admin": "user"}
+  await axios.put(url, payload)
 }
 
   return (
