@@ -1,7 +1,7 @@
 {
   "name": "react-cycle",
   "version": "1.0.0",
-  "description": "Project for Cycle Shop",
+  "description": "Project for Next Shop",
   "main": "index.js",
   "scripts": {
     "dev": "next",
